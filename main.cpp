@@ -119,7 +119,7 @@ int main() {
         cout <<"" << endl;
         cout << "1. Incluir eleitor" << endl;
         cout << "2. Incluir candidato" << endl;
-        cout << "3. Iniciar eleição" << endl;
+        cout << "3. Começar eleição" << endl;
         cout << "4. Sair" << endl;
         cin >> opcao;
 
