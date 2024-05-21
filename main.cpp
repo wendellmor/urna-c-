@@ -32,7 +32,7 @@ bool incluirEleitor() {
     cin >> eleitor.nome;
     cout << "Idade do eleitor: ";
     cin >> eleitor.idade;
-    cout << "Identificador do eleitor (exatamente 5 dígitos): ";
+    cout << "Identificador do eleitor (5 dígitos): ";
     cin >> eleitor.identificador;
 
     if (!identificadorValido(eleitor.identificador)) {
@@ -86,7 +86,7 @@ bool iniciarEleicao() {
         if (candidatos.find(eleitor.identificador) != candidatos.end()) {
             continue;
         }
-        cout << "Eleitor " << eleitor.nome << ", vote em um candidato (número) ou digite 0 para voto em branco:" << endl;
+        cout << "Eleitor " << eleitor.nome << ", digite o candidato (número) ou digite 0 para voto em branco(ninguém) :" << endl;
         for (auto &c : candidatos) {
             cout << " " << c.second.numero_votacao << ": " << c.second.nome << endl;
         }
