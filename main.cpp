@@ -117,10 +117,10 @@ int main() {
     int opcao;
     do {
         cout <<"" << endl;
-        cout << "1. Incluir eleitor" << endl;
-        cout << "2. Incluir candidato" << endl;
-        cout << "3. Começar eleição" << endl;
-        cout << "4. Sair" << endl;
+        cout << "1.Incluir eleitor" << endl;
+        cout << "2.Incluir candidato" << endl;
+        cout << "3.Começar eleição" << endl;
+        cout << "4.Sair" << endl;
         cin >> opcao;
 
         bool resultado;
@@ -140,7 +140,7 @@ int main() {
             case 3:
                 resultado = iniciarEleicao();
                 if (!resultado) {
-                    cout << "Falha ao iniciar eleição." << endl;
+                    cout << "Houve um erro ao iniciar eleição." << endl;
                 }
                 break;
             case 4:
