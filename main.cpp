@@ -69,7 +69,7 @@ bool incluirCandidato() {
         candidato.votos = 0;
         eleitores[candidato.identificador] = {candidato.nome, candidato.idade, candidato.identificador};
         candidatos[candidato.numero_votacao] = candidato;
-        cout << "Candidato " << candidato.nome << " incluído com sucesso." << endl;
+        cout << "Candidato " << candidato.nome << " adicionado com sucesso." << endl;
         return true;
     }
 }
