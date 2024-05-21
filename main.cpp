@@ -69,7 +69,7 @@ bool incluirCandidato() {
         candidato.votos = 0;
         eleitores[candidato.identificador] = {candidato.nome, candidato.idade, candidato.identificador};
         candidatos[candidato.numero_votacao] = candidato;
-        cout << "Candidato " << candidato.nome << " adicionado com sucesso." << endl;
+        cout << "Candidato " << candidato.nome << " adicionado." << endl;
         return true;
     }
 }
@@ -80,7 +80,7 @@ bool iniciarEleicao() {
         return false;
     }
 
-    cout << "Iniciando eleição..." << endl;
+    cout << "Eleicão em andamento" << endl;
     for (auto &pair : eleitores) {
         Eleitor &eleitor = pair.second;
         if (candidatos.find(eleitor.identificador) != candidatos.end()) {
@@ -95,7 +95,7 @@ bool iniciarEleicao() {
         if (candidatos.find(voto) != candidatos.end()) {
             candidatos[voto].votos += 1;
         } else {
-            cout << "Voto em branco registrado." << endl;
+            cout << "Voto em branco contabilizado." << endl;
         }
     }
 
@@ -116,7 +116,7 @@ bool iniciarEleicao() {
 int main() {
     int opcao;
     do {
-        cout << "\nEscolha uma opção:" << endl;
+        cout <<"" << endl;
         cout << "1. Incluir eleitor" << endl;
         cout << "2. Incluir candidato" << endl;
         cout << "3. Iniciar eleição" << endl;
