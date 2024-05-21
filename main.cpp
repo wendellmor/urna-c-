@@ -36,7 +36,7 @@ bool incluirEleitor() {
     cin >> eleitor.identificador;
 
     if (!identificadorValido(eleitor.identificador)) {
-        cout << "Erro em incluir eleitor: identificador não é de 5 dígitos" << endl;
+        cout << "Erro em incluir o eleitor (identificador)" << endl;
         return false;
     } else if (eleitores.find(eleitor.identificador) != eleitores.end()) {
         cout << "Erro em incluir eleitor: identificador já existe" << endl;
