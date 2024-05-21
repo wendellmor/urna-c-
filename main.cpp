@@ -144,7 +144,7 @@ int main() {
                 }
                 break;
             case 4:
-                cout << "Encerrando o programa." << endl;
+                cout << "O programa está fechando..." << endl;
                 break;
             default:
                 cout << "Opção inválida" << endl;
