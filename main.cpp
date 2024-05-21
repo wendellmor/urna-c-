@@ -5,111 +5,95 @@
 
 using namespace std;
 
-struct Eleitor {
-    string nome;
-    int idade;
-    int identificador;
-};
-
-struct Candidato {
-    string nome;
-    int idade;
-    int identificador;
-    int numero_votacao;
-    int votos;
-};
-
-map<int, Eleitor> eleitores;
-map<int, Candidato> candidatos;
+map<int, string> eleitores;
+map<int, pair<string, int>> candidatos;
+map<int, int> votos_candidatos;
 
 bool identificadorValido(int identificador) {
     return identificador >= 10000 && identificador <= 99999;
 }
 
 bool incluirEleitor() {
-    Eleitor eleitor;
+    string nome;
+    int idade, identificador;
     cout << "Nome do eleitor: ";
-    cin >> eleitor.nome;
+    cin >> nome;
     cout << "Idade do eleitor: ";
-    cin >> eleitor.idade;
-    cout << "Identificador do eleitor (5 dígitos): ";
-    cin >> eleitor.identificador;
+    cin >> idade;
+    cout << "Identificador do eleitor (5 digitos): ";
+    cin >> identificador;
 
-    if (!identificadorValido(eleitor.identificador)) {
+    if (!identificadorValido(identificador)) {
         cout << "Erro em incluir o eleitor (identificador)" << endl;
         return false;
-    } else if (eleitores.find(eleitor.identificador) != eleitores.end()) {
-        cout << "Erro em incluir eleitor: identificador já existe" << endl;
+    } else if (eleitores.find(identificador) != eleitores.end()) {
+        cout << "Erro em incluir eleitor: identificador ja existe" << endl;
         return false;
     } else {
-        eleitores[eleitor.identificador] = eleitor;
-        cout << "Eleitor " << eleitor.nome << " incluído com sucesso." << endl;
+        eleitores[identificador] = nome;
+        cout << "Eleitor " << nome << " incluido com sucesso." << endl;
         return true;
     }
 }
 
 bool incluirCandidato() {
-    Candidato candidato;
+    string nome;
+    int idade, identificador, numero_votacao;
     cout << "Nome do candidato: ";
-    cin >> candidato.nome;
+    cin >> nome;
     cout << "Idade do candidato: ";
-    cin >> candidato.idade;
-    cout << "Identificador do candidato (exatamente 5 dígitos): ";
-    cin >> candidato.identificador;
-    cout << "Número de votação do candidato: ";
-    cin >> candidato.numero_votacao;
+    cin >> idade;
+    cout << "Identificador do candidato (exatamente 5 digitos): ";
+    cin >> identificador;
+    cout << "Numero de votacao do candidato: ";
+    cin >> numero_votacao;
 
-    if (!identificadorValido(candidato.identificador)) {
-        cout << "Erro em incluir candidato: identificador não é de 5 dígitos" << endl;
+    if (!identificadorValido(identificador)) {
+        cout << "Erro em incluir candidato: identificador nao e de 5 digitos" << endl;
         return false;
-    } else if (eleitores.find(candidato.identificador) != eleitores.end()) {
-        cout << "Erro em incluir candidato: identificador já existe" << endl;
+    } else if (candidatos.find(identificador) != candidatos.end()) {
+        cout << "Erro em incluir candidato: identificador ja existe" << endl;
         return false;
     } else {
-        candidato.votos = 0;
-        eleitores[candidato.identificador] = {candidato.nome, candidato.idade, candidato.identificador};
-        candidatos[candidato.numero_votacao] = candidato;
-        cout << "Candidato " << candidato.nome << " adicionado." << endl;
+        candidatos[identificador] = make_pair(nome, idade);
+        votos_candidatos[numero_votacao] = 0;
+        cout << "Candidato " << nome << " adicionado." << endl;
         return true;
     }
 }
 
 bool iniciarEleicao() {
     if (eleitores.empty() || candidatos.empty()) {
-        cout << "Erro: Não há eleitores ou candidatos suficientes para iniciar a eleição." << endl;
+        cout << "Erro: Nao ha eleitores ou candidatos suficientes para iniciar a eleicao." << endl;
         return false;
     }
 
-    cout << "Eleicão em andamento" << endl;
+    cout << "Eleicao em andamento" << endl;
     for (auto &pair : eleitores) {
-        Eleitor &eleitor = pair.second;
-        if (candidatos.find(eleitor.identificador) != candidatos.end()) {
-            continue;
-        }
-        cout << "Eleitor " << eleitor.nome << ", digite o candidato (número) ou digite 0 para voto em branco(ninguém) :" << endl;
+        int identificador = pair.first;
+        string nome = pair.second;
+        cout << "Eleitor " << nome << ", digite o candidato (numero) ou digite 0 para voto em branco(ninguem) :" << endl;
         for (auto &c : candidatos) {
-            cout << " " << c.second.numero_votacao << ": " << c.second.nome << endl;
+            cout << " " << c.first << ": " << c.second.first << endl;
         }
         int voto;
         cin >> voto;
         if (candidatos.find(voto) != candidatos.end()) {
-            candidatos[voto].votos += 1;
+            votos_candidatos[voto] += 1;
         } else {
             cout << "Voto em branco contabilizado." << endl;
         }
     }
 
-    Candidato vencedor;
-    bool primeiro = true;
-    for (auto &c : candidatos) {
-        if (primeiro || c.second.votos > vencedor.votos ||
-            (c.second.votos == vencedor.votos && c.second.idade < vencedor.idade) ||
-            (c.second.votos == vencedor.votos && c.second.idade == vencedor.idade && c.second.identificador < vencedor.identificador)) {
-            vencedor = c.second;
-            primeiro = false;
+    int max_votos = -1;
+    int vencedor;
+    for (auto &v : votos_candidatos) {
+        if (v.second > max_votos) {
+            max_votos = v.second;
+            vencedor = v.first;
         }
     }
-    cout << "O vencedor da eleição é " << vencedor.nome << " com " << vencedor.votos << " votos." << endl;
+    cout << "O vencedor da eleicao e " << candidatos[vencedor].first << " com " << max_votos << " votos." << endl;
     return true;
 }
 
@@ -119,7 +103,7 @@ int main() {
         cout <<"" << endl;
         cout << "1.Incluir eleitor" << endl;
         cout << "2.Incluir candidato" << endl;
-        cout << "3.Começar eleição" << endl;
+        cout << "3.Comecar eleicao" << endl;
         cout << "4.Sair" << endl;
         cin >> opcao;
 
@@ -140,14 +124,14 @@ int main() {
             case 3:
                 resultado = iniciarEleicao();
                 if (!resultado) {
-                    cout << "Houve um erro ao iniciar eleição." << endl;
+                    cout << "Houve um erro ao iniciar eleicao." << endl;
                 }
                 break;
             case 4:
-                cout << "O programa está fechando..." << endl;
+                cout << "O programa esta fechando..." << endl;
                 break;
             default:
-                cout << "Opção inválida" << endl;
+                cout << "Opcao invalida" << endl;
         }
     } while (opcao != 4);
 
